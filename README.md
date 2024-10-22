@@ -5,23 +5,23 @@ A solution for the **User-Friendly Password System** challenge, which simulates 
 ## Problem Description
 
 The task is to implement an authentication system that:
-
 1. **Sets a password** and computes its hash using a custom hashing function.
 2. **Authorizes login attempts** by checking whether a provided integer is the hash of the current password or the hash of the password with one additional character.
 
 The hashing function works as follows:
 
 - The password string is hashed using the formula:
-  \[
-  h(s) = \left( \sum\_{i=0}^{n-1} f(s[i]) \cdot P^{n-1-i} \right) \mod M
-  \]
+
+$$
+h(s) = \left( \sum_{i=0}^{n-1} f(s[i]) \cdot P^{n-1-i} \right) \mod M
+$$
+
   Where:
   - `f(x)` is the ASCII code of the character `x`.
   - `P = 131` is a constant.
   - `M = 10^9 + 7` is a large prime number.
 
 The system should handle two types of events:
-
 1. **`setPassword(s)`**: Sets the password to the string `s`.
 2. **`authorize(x)`**: Checks if the provided integer `x` matches the hash of the current password or the hash of the password with one additional character.
 
@@ -30,18 +30,14 @@ The system should handle two types of events:
 The solution is implemented in JavaScript with the following key components:
 
 ### 1. `hashPassword(password, P, M)`
-
 Calculates the hash of the provided password using the specified hashing formula. It iterates over the characters of the password and computes the hash with the provided constants `P` and `M`.
 
 ### 2. `authorize(hashValue, passwordHash, passwordLength, P, M)`
-
 Validates whether the provided `hashValue` matches:
-
 - The exact hash of the current password.
 - The hash of the current password with an additional character (any digit or letter).
 
 ### 3. `authEvents(events)`
-
 Processes a series of events, either setting a password or authorizing login attempts, and returns the results of the authorization attempts as an array of integers (1 for success, 0 for failure).
 
 ## Usage
@@ -53,14 +49,14 @@ This project is an **npm project** with tests included. You can clone the reposi
 ```javascript
 const events = [
   ["setPassword", "cAr1"],
-  ["authorize", "223691457"], // Should return 1 (correct password hash)
-  ["authorize", "303580761"], // Should return 1 (password + 'a' hash)
-  ["authorize", "100"], // Should return 0 (invalid hash)
+  ["authorize", "223691457"],  // Should return 1 (correct password hash)
+  ["authorize", "303580761"],  // Should return 1 (password + 'a' hash)
+  ["authorize", "100"],        // Should return 0 (invalid hash)
   ["setPassword", "d"],
-  ["authorize", "100"], // Should return 1 (correct hash for password 'd')
-]
+  ["authorize", "100"],        // Should return 1 (correct hash for password 'd')
+];
 
-console.log(authEvents(events)) // Output: [1, 1, 0, 1]
+console.log(authEvents(events));  // Output: [1, 1, 0, 1]
 ```
 
 ### Input Format
@@ -74,7 +70,6 @@ console.log(authEvents(events)) // Output: [1, 1, 0, 1]
 - Returns an array of integers representing the success (1) or failure (0) of each `authorize` event.
 
 ### Constraints
-
 - `2 <= q <= 10^5`, where `q` is the number of events.
 - Password length `s` is between 1 and 9 characters.
 - `x` in `authorize(x)` is a 32-bit integer.
